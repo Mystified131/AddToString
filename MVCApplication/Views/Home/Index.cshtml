@@ -1,0 +1,17 @@
+﻿@model MVCApplication.ViewModels.IndexViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<form action='Home/Result' method='POST' align="left">
+    <label>
+        Please enter an item to add to the string:
+    </label><br><br>
+        <input name="NewElement" type="text" value="" />
+    <br /><br />
+    <input type="submit" value="Add To String" />
+
+</form>
