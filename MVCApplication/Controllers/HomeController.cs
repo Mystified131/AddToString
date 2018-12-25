@@ -57,6 +57,43 @@ namespace MVCApplication.Controllers
 
         }
 
+
+
+        [HttpGet]
+        public IActionResult EditItem()
+        {
+            if (TheString.Length > 0)
+            {
+                ViewBag.NewElement1 = TheString;
+
+                EditItemViewModel editItemViewModel = new EditItemViewModel();
+
+                return View(editItemViewModel);
+            }
+
+            else
+            {
+                return Redirect("/");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult EditItem(EditItemViewModel editItemViewModel)
+
+        {
+            if (ModelState.IsValid)
+
+            {
+
+
+                TheString = editItemViewModel.NewElement2;
+
+                return Redirect("/Home/Result");
+            }
+
+            return Redirect("/");
+
+        }
     }
 
 
