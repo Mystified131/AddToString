@@ -9,15 +9,16 @@ using MVCApplication.ViewModels;
 
 namespace MVCApplication.Controllers
 {
-  
+
     public class HomeController : Controller
     {
         static public string TheString;
+        static public string Searchstr;
 
         public IActionResult Index()
         {
-            
-        IndexViewModel indexViewModel = new IndexViewModel();
+
+            IndexViewModel indexViewModel = new IndexViewModel();
 
             return View(indexViewModel);
         }
@@ -31,8 +32,9 @@ namespace MVCApplication.Controllers
         [HttpGet]
         public IActionResult Result()
         {
-            if(TheString.Length > 0) { 
-            ResultViewModel resultViewModel = new ResultViewModel();
+            if (TheString.Length > 0)
+            {
+                ResultViewModel resultViewModel = new ResultViewModel();
 
                 resultViewModel.TheString = TheString;
 
@@ -52,7 +54,7 @@ namespace MVCApplication.Controllers
             if (ModelState.IsValid)
             {
 
-                TheString += resultViewModel.NewElement;
+                TheString += resultViewModel.NewElement.ToLower();
 
                 resultViewModel.TheString = TheString;
 
@@ -100,8 +102,76 @@ namespace MVCApplication.Controllers
             return Redirect("/Home/Error");
 
         }
+
+
+        [HttpGet]
+        public IActionResult SearchSelect()
+        {
+            if (TheString.Length > 0)
+            {
+                SearchSelectViewModel searchSelectViewModel = new SearchSelectViewModel();
+
+                return View(searchSelectViewModel);
+            }
+
+            else
+            {
+                return Redirect("/");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult SearchSelect(SearchSelectViewModel searchSelectViewModel)
+
+        {
+            if (ModelState.IsValid)
+
+            {
+                Searchstr = searchSelectViewModel.Searchstr.ToLower();
+                return Redirect("/Home/SearchResult");
+            }
+
+            return Redirect("/Home/Error");
+
+        }
+
+        [HttpGet]
+        public IActionResult SearchResult()
+        {
+            if (TheString.Length > 0)
+            {
+                SearchResultViewModel searchResultViewModel = new SearchResultViewModel();
+
+                if (TheString.Contains(Searchstr))
+                {
+
+                    bool Anslist = true;
+                    ViewBag.Anslist = Anslist;
+                    ViewBag.TheString = TheString;
+                    ViewBag.Searchstr = Searchstr;
+
+                    return View(searchResultViewModel);
+                }
+
+                else
+                {
+
+                    bool Anslist = false;
+                    ViewBag.Anslist = Anslist;
+                    ViewBag.TheString = TheString;
+                    ViewBag.Searchstr = Searchstr;
+
+                    return View(searchResultViewModel);
+
+                }
+            }
+
+            else
+            {
+                return Redirect("/");
+            }
+        }
+
     }
-
-
 
 }
