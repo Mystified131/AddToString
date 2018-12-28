@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MVCApplication.Models;
@@ -164,6 +165,45 @@ namespace MVCApplication.Controllers
                     return View(searchResultViewModel);
 
                 }
+            }
+
+            else
+            {
+                return Redirect("/");
+            }
+        }
+
+
+        [HttpGet]
+        public IActionResult Sort()
+        {
+            if (TheString.Length > 0)
+            {
+                SortViewModel sortViewModel = new SortViewModel();
+
+                List<char> Bridgelist = new List<char>();
+
+                foreach (char item in TheString)
+                {
+
+                    Bridgelist.Add(item);
+
+                }
+
+                Bridgelist.Sort();
+
+                var builder = new StringBuilder();
+
+                foreach (char item in Bridgelist)
+                {
+
+                  builder.Append(item);
+
+                }
+
+                sortViewModel.Sortstring = builder.ToString();
+
+                return View(sortViewModel);
             }
 
             else
